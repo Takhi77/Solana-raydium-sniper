@@ -18,6 +18,6 @@ It is showing buying, monitoring the price of the sniped token, then selling pro
 If you are satisfied with this, then you can contact me and get whole part of my sniper.
 Contact info
 
-telegram: @Takhi777
+telegram: @hi_3333
 
 After the contact through telegram, then let's continue through other contact ways.
