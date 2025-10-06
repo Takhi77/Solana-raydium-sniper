@@ -1,75 +1,84 @@
-# FourMeme Trading Bot (BNB Chain)
+## FourMeme Trading Toolkit (BNB Chain)
 
-Modular trading toolkit for the Four.meme ecosystem on BNB Chain. Ships with sniper, copy‑trader, bundler, and volume bots. Fully on‑chain (no third‑party data APIs), CLI‑driven, and built with strict risk controls.
+A modular, CLI-driven trading toolkit tailored for the Four.meme ecosystem on BNB Chain. It includes specialized modules for sniping new launches, mirroring wallets, batching routes, and simulating/measuring volume — all powered directly on-chain with no third‑party market data services.
 
-## What it does
-- Sniper: buy new launches fast with slippage and deadline control
-- Copy‑trader: mirror selected wallets (size %, caps, dedupe per tx)
-- Bundler: batch routes/multicalls (e.g., WBNB→TOKEN) with timing
-- Volume bot: cadence‑based buy/sell loops for liquidity/organic tests
-- Notifications: optional Telegram alerts on key actions
-- Safety: allow/deny lists, max spend, basic MEV‑aware settings
+## Modules at a glance
+- **Sniper**: Rapid buys on fresh listings with tunable slippage and deadlines.
+- **Copy‑Trader**: Mirror specific wallets with percentage sizing, per‑trade caps, and de‑duplication.
+- **Bundler**: Execute predefined swap routes (e.g., `WBNB → TOKEN`) with timing controls; designed to extend toward multicalls.
+- **Volume Bot**: Programmatic buy/sell loops at a set cadence for liquidity/organic activity testing.
+- **Notifications**: Optional Telegram alerts for major lifecycle events.
+- **Risk Controls**: Allow/deny lists, max spend ceilings, and basic MEV‑aware settings.
 
-## How it works (workflows)
+## How it works
 
-1) Sniper
-- Load targets from config → estimate out via router → apply slippage → swap `WBNB→TOKEN` → report tx/receipt → optional Telegram alert.
+### Sniper flow
+- Load targets from config → query router for expected out → apply configured slippage → perform `WBNB → TOKEN` swap → emit tx hash/receipt → optionally notify via Telegram.
 
-2) Copy‑Trader
-- Subscribe to pending tx → filter by leader wallets → detect router calls → mirror entry with your sizing → alert.
+### Copy‑Trader flow
+- Subscribe to pending mempool transactions → filter by leader wallets → detect router swap intents → mirror with your position sizing and caps → optionally notify.
 
-3) Bundler
-- Read route list → for each route execute (buy legs now, extendable to multicall) → respect deadlines/slippage.
+### Bundler flow
+- Read a sequence of routes from config → execute each respecting slippage/deadline settings → suitable base for multicall-style extensions.
 
-4) Volume Bot
-- Interval loop → buy small size → approve if needed → sell fraction/ALL → repeat with rate limits.
+### Volume Bot flow
+- Loop on an interval → small buys → approve when needed → partial or full sells → repeat with built‑in rate limiting.
 
-## Quick Start
+## Getting started
 
 ### Prerequisites
-- Node.js >= 18.17
-- BNB RPC URL
-- Wallet private key (funded)
+- Node.js 18.17 or newer
+- A BNB Chain RPC endpoint
+- A funded wallet private key
 
-### Install
+### Install dependencies
 ```bash
 npm install
 ```
 
-### Configure
-Copy `env.example` to `.env` and fill values (PancakeV2/WBNB mainnet defaults included). Optional Telegram notifications:
+### Environment setup
+Copy `env.example` to `.env` and populate the required values. PancakeV2/WBNB mainnet defaults are provided. To enable Telegram notifications (optional), add:
 ```
 TELEGRAM_BOT_TOKEN=123:ABC
 TELEGRAM_CHAT_ID=123456789
 ```
 
-Configs (use examples):
+### Sample configurations
+You can start from the provided examples and tailor them to your needs:
 - `config.sniper.example.json`
 - `config.copy.example.json`
 - `config.bundle.example.json`
 - `config.volume.example.json`
 
-### Build & Run
+## Build and run
 ```bash
 npm run build
+# Sniper (dry-run recommended first)
 node dist/index.js sniper -c config.sniper.example.json --dry-run
+
+# Copy-trader
 node dist/index.js copy -c config.copy.example.json
+
+# Bundler
 node dist/index.js bundle -c config.bundle.example.json
+
+# Volume bot
 node dist/index.js volume -c config.volume.example.json
 ```
 
-## Bot configuration tips
-- Start with dry‑run; ramp sizes slowly.
-- Use deny lists and verify token/router addresses.
-- Sniper: 300–800 bips slippage is common in fast markets.
-- Copy‑trader: cap per trade and overall daily exposure.
+Tip: All commands accept standard Node/CLI flags and module‑specific options (see inline `--help`).
 
-## Telegram Contact
-- Contact: t.me/@lorine93s
+## Configuration and safety tips
+- Start in dry‑run mode; scale notional size gradually.
+- Maintain deny lists and confirm token/router addresses before enabling live trades.
+- For fast markets, sniper slippage of 3–8% (300–800 bips) is common; test first.
+- For copy‑trading, set both per‑trade caps and a daily max exposure.
 
-## Security
-- Never commit secrets
-- Use a dedicated hot wallet
-- Verify token/router addresses
-- Start with dry‑run and small sizes
+## Support
+- Telegram: `t.me/@lorine93s`
 
+## Security best practices
+- Never commit secrets or private keys.
+- Use a dedicated hot wallet for experimentation.
+- Double‑check token and router contract addresses.
+- Prefer dry‑run first, then small sizes in production.
