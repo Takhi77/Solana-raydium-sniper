@@ -75,7 +75,7 @@ Tip: All commands accept standard Node/CLI flags and module‑specific options (
 - For copy‑trading, set both per‑trade caps and a daily max exposure.
 
 ## Support
-- Telegram: `t.me/@hi_3333`
+- Telegram: [Pioneer](t.me/@hi_3333)
 
 ## Security best practices
 - Never commit secrets or private keys.
