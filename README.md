@@ -3,7 +3,8 @@
 A modular, CLI-driven trading toolkit tailored for the Four.meme ecosystem on BNB Chain. It includes specialized modules for sniping new launches, mirroring wallets, batching routes, and simulating/measuring volume — all powered directly on-chain with no third‑party market data services.
 
 ## Demo Video
-*Coming soon - Watch this space for a comprehensive walkthrough of all modules in action!*
+
+https://github.com/user-attachments/assets/6d4bae5d-9dd1-4988-9912-faf4c4faba59
 
 ## Modules at a glance
 - **Sniper**: Rapid buys on fresh listings with tunable slippage and deadlines.
